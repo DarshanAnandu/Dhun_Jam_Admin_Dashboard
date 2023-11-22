@@ -160,11 +160,10 @@ const Dashboard = () => {
                     ...result.data.amount,
                 }));
 
-                // Initialize convertingNumbers with values from the API response
-                setConvertingNumbers((prevConvertingNumbers) => ({
-                    ...prevConvertingNumbers,
+                // Initialize convertingNumbers correctly
+                setConvertingNumbers({
                     ...result.data.amount,
-                }));
+                });
 
                 setModifiedAmount({
                     category_6: 0,
@@ -178,6 +177,7 @@ const Dashboard = () => {
             console.error('GET is not worked - Error:', error);
         }
     };
+
 
     useEffect(() => {
         console.log('check');
@@ -364,7 +364,7 @@ const Dashboard = () => {
                             console.log('btn disabled 3');
                         }
                     }}
-                    onMouseOver={() => {isSaveButtonEnabled}}
+                    // onMouseOver={() => { isSaveButtonEnabled }}
                     disabled={isSaveButtonEnabled}
                 >
                     Save
