@@ -62,6 +62,8 @@ const Dashboard = () => {
     const putUrl = `https://stg.dhunjam.in/account/admin/${id}`;
     const navigate = useNavigate();
     const [isSaveButtonEnabled, setSaveButtonEnabled] = useState(false);
+    const [name, setName] = useState('');
+    const [Location, setLocation] = useState('');
 
     const [amount, setAmount] = useState({
         category_6: 0,
@@ -148,6 +150,8 @@ const Dashboard = () => {
 
             if (result && result.data) {
                 setChargeCustomers(result.data.charge_customers);
+                setName(result.data.name);
+                setLocation(result.data.location);
 
                 setAmount((prevAmount) => ({
                     ...prevAmount,
@@ -252,7 +256,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-page">
-            <h2 className="headings">Social, Hebbal on Dhun Jam</h2>
+            <h2 className="headings">{name}, {location} on Dhun Jam</h2>
             <div className="cols">
                 {!chargeCustomers && (
                     <div className="contents">
