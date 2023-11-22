@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
 const options = {
     responsive: true,
     plugins: {
@@ -125,15 +126,16 @@ const Dashboard = () => {
 
             // Update state with the modified amounts
             setAmount((prevAmount) => ({ ...prevAmount, ...modifiedFields }));
-            fetchData();
+            fetchData(); // Call fetchData after a successful save
         } catch (error) {
             console.error('PUT is not worked - Error:', error);
         }
     };
-    const fetchData = () => {
+
+    const fetchData = async () => {
         try {
-            console.log("fetch")
-            const response = fetch(putUrl, {
+            console.log('fetch');
+            const response = await fetch(putUrl, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -146,7 +148,7 @@ const Dashboard = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const result = response.json();
+            const result = await response.json();
 
             if (result && result.data) {
                 setChargeCustomers(result.data.charge_customers);
@@ -177,21 +179,22 @@ const Dashboard = () => {
         }
     };
 
-    fetchData();
+    useEffect(() => {
+        console.log('check');
+        const newSaveButtonEnabled =
+            convertingNumbers.category_6 > 99 &&
+            convertingNumbers.category_7 > 79 &&
+            convertingNumbers.category_8 > 59 &&
+            convertingNumbers.category_9 > 39 &&
+            convertingNumbers.category_10 > 19;
+
+        setSaveButtonEnabled(newSaveButtonEnabled);
+    }, [convertingNumbers]);
+
 
     useEffect(() => {
-        // fetchData();
-
-        setSaveButtonEnabled(() => {
-            return (
-                convertingNumbers.category_6 <= 99 ||
-                convertingNumbers.category_7 <= 79 ||
-                convertingNumbers.category_8 <= 59 ||
-                convertingNumbers.category_9 <= 39 ||
-                convertingNumbers.category_10 <= 19
-            )
-        })
-    }, [convertingNumbers, chargeCustomers]);
+        fetchData(); // Call fetchData only once when the component mounts
+    }, []); // Empty dependency array to run only on mount
 
     const calculateData = () => {
         const oldMin = 0;
@@ -210,7 +213,6 @@ const Dashboard = () => {
         return convertedNumbers;
     };
 
-
     const convertedNumbers = calculateData();
 
     const barChartData = {
@@ -227,6 +229,7 @@ const Dashboard = () => {
             },
         ],
     };
+
     const isEligible = (convertingNumbers) => {
         if (
             convertingNumbers.category_6 > 99 &&
@@ -256,18 +259,26 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-page">
-            <h2 className="headings">{name}, {location} on Dhun Jam</h2>
+            <h2 className="headings">
+                {name}, {Location} on Dhun Jam
+            </h2>
             <div className="cols">
                 {!chargeCustomers && (
                     <div className="contents">
-                        <label className="lables">Do you want to charge your customers for requesting songs?</label>
+                        <label className="lables">
+                            Do you want to charge your customers for requesting songs?
+                        </label>
                     </div>
                 )}
                 {chargeCustomers && (
                     <div className="contents">
-                        <label className="lables">Do you want to charge your customers for requesting songs?</label>
+                        <label className="lables">
+                            Do you want to charge your customers for requesting songs?
+                        </label>
                         <label className="lables">Custom song request amount-</label>
-                        <label className="lables">Regular song request amounts, from high to low-</label>
+                        <label className="lables">
+                            Regular song request amounts, from high to low-
+                        </label>
                     </div>
                 )}
                 <div className="inputs">
@@ -304,27 +315,32 @@ const Dashboard = () => {
                                 onChange={(e) => {
                                     const value = parseInt(e.target.value, 10);
                                     handleInputChange('category_6', value);
-                                    console.log(value)
+                                    console.log(value);
                                 }}
                             />
                         </div>
                     )}
                     {chargeCustomers && (
                         <div className="datas3">
-                            {['category_7', 'category_8', 'category_9', 'category_10'].map((category, index) => (
-                                <div key={index} className="datas">
-                                    <input
-                                        type="number"
-                                        className={`num ${minValues[index] < convertingNumbers[category] ? '' : 'ineligible'}`}
-                                        value={convertingNumbers[category]}
-                                        onChange={(e) => {
-                                            const value = parseInt(e.target.value, 10);
-                                            handleInputChange(category, value);
-                                            console.log(value);
-                                        }}
-                                    />
-                                </div>
-                            ))}
+                            {['category_7', 'category_8', 'category_9', 'category_10'].map(
+                                (category, index) => (
+                                    <div key={index} className="datas">
+                                        <input
+                                            type="number"
+                                            className={`num ${minValues[index] < convertingNumbers[category]
+                                                ? ''
+                                                : 'ineligible'
+                                                }`}
+                                            value={convertingNumbers[category]}
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value, 10);
+                                                handleInputChange(category, value);
+                                                console.log(value);
+                                            }}
+                                        />
+                                    </div>
+                                )
+                            )}
                         </div>
                     )}
                 </div>
@@ -332,24 +348,23 @@ const Dashboard = () => {
             {chargeCustomers && (
                 <div className="bar-container">
                     <label>Bar Chart</label>
-                    <Bar
-                        data={barChartData}
-                        className="bar-chart"
-                        options={options}
-                    />
+                    <Bar data={barChartData} className="bar-chart" options={options} />
                 </div>
             )}
 
             <div className="btn">
                 <button
                     className={`sgn-btn ${isSaveButtonEnabled ? '' : 'disabled'}`}
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.preventDefault();
                         if (isSaveButtonEnabled) {
+                            console.log('clicked');
                             handleSave();
                         } else {
-                            console.log("btn disabled 3");
+                            console.log('btn disabled 3');
                         }
                     }}
+                    onMouseOver={() => {isSaveButtonEnabled}}
                     disabled={isSaveButtonEnabled}
                 >
                     Save

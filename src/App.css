@@ -201,38 +201,21 @@ input[type="radio"] {
       border: 1px solid #f0c3f1;
     }
     .sgn-btn.disabled {
-      background-color: #c2c2c2; /* Grayish background color for disabled button */
-      cursor: not-allowed; /* Change cursor to 'not-allowed' for disabled button */
+      background-color: #c2c2c2;
+      cursor: not-allowed;
       position: relative;
     }
 
     .sgn-btn.disabled::before {
-      /* content: "🚫"; */
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 14px;
-      color: #fff; /* Symbol color */
+      color: #c2c2c2; /* Symbol color */
     }
     .num.ineligible {
-      border: 2px solid #ff0000; /* Highlight ineligible input boxes with a red border */
-    }
-
-    .disabled {
-      background-color: #c2c2c2; /* Grayish background color for disabled button */
-      cursor: not-allowed; /* Change cursor to 'not-allowed' for disabled button */
-      position: relative;
-    }
-
-    .disabled::before {
-      /* content: "🚫"; */
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 14px;
-      color: #646464; /* Symbol color */
+      border: 2px solid #ff0000;
     }
     .reg {
       font-weight: 200;
@@ -422,6 +405,23 @@ input[type="radio"] {
       }
       .sgn-btn:hover {
         border: 1px solid #f0c3f1;
+      }
+      .sgn-btn.disabled {
+        background-color: #c2c2c2;
+        cursor: not-allowed;
+        position: relative;
+      }
+
+      .sgn-btn.disabled::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 14px;
+        color: #c2c2c2; /* Symbol color */
+      }
+      .num.ineligible {
+        border: 2px solid #ff0000;
       }
       .reg {
         font-weight: 200;
