@@ -3,29 +3,26 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login';
-import Dasboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
-  // Use state to manage loggedIn status
   const [isLoggedIn, setLoggedIn] = useState(
     localStorage.getItem('loggedIn') === 'true'
   );
 
   useEffect(() => {
     const checkLoggedInStatus = () => {
-      // Use setLoggedIn to update the state
       setLoggedIn(localStorage.getItem('loggedIn') === 'true');
-      const isLoginPage = window.location.pathname === '/login';
+      const isLoginPage = window.location.pathname === '/Frontend-Assignment-3/';
 
       if (!isLoggedIn && !isLoginPage) {
-        // Redirect to login if not logged in and not on the login page
-        window.location.replace('/login');
+        window.location.replace('/Frontend-Assignment-3/');
       } else if (isLoggedIn && isLoginPage) {
-        // Redirect to home if logged in and on the login page
-        window.location.replace('/');
+        window.location.replace('/Frontend-Assignment-3/Dashboard');
       }
     };
 
@@ -34,15 +31,24 @@ const App = () => {
     const intervalId = setInterval(checkLoggedInStatus, 60000);
 
     return () => clearInterval(intervalId);
-  }, [isLoggedIn]); // Add isLoggedIn to dependency array
+  }, [isLoggedIn]);
 
   return (
-    <Router>
+    <Router basename='/Frontend-Assignment-3'>
       <Routes>
-        <Route path="/login" element={<Login />} />
         <Route
-          path="/"
-          element={<Dasboard />}
+          path="/Frontend-Assignment-3/"
+          element={<Login />}
+        />
+        <Route
+          path="/Dashboard"
+          element={
+            isLoggedIn ? (
+              <Dashboard />
+            ) : (
+              <Navigate to="/Frontend-Assignment-3/" />
+            )
+          }
         />
       </Routes>
     </Router>

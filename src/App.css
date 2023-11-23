@@ -159,6 +159,7 @@ input[type="radio"] {
       .datas3 {
         width: 100%;
         display: flex;
+        justify-content: space-around;
         .datas {
           width: 20%;
           display: flex;

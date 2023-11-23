@@ -101,7 +101,6 @@ const Dashboard = () => {
             });
 
             if (Object.keys(modifiedFields).length === 0) {
-                // No changes to save
                 return;
             }
 
@@ -120,13 +119,10 @@ const Dashboard = () => {
                 console.log('Bad Response for Put request', response);
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
             const result = await response.json();
             console.log('PUT Request Successful:', result);
-
-            // Update state with the modified amounts
             setAmount((prevAmount) => ({ ...prevAmount, ...modifiedFields }));
-            fetchData(); // Call fetchData after a successful save
+            fetchData();
         } catch (error) {
             console.error('PUT is not worked - Error:', error);
         }
@@ -142,29 +138,22 @@ const Dashboard = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
             if (!response.ok) {
                 console.log('Bad Response for GET request', response);
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
             const result = await response.json();
-
             if (result && result.data) {
                 setChargeCustomers(result.data.charge_customers);
                 setName(result.data.name);
                 setLocation(result.data.location);
-
                 setAmount((prevAmount) => ({
                     ...prevAmount,
                     ...result.data.amount,
                 }));
-
-                // Initialize convertingNumbers correctly
                 setConvertingNumbers({
                     ...result.data.amount,
                 });
-
                 setModifiedAmount({
                     category_6: 0,
                     category_7: 0,
@@ -177,8 +166,6 @@ const Dashboard = () => {
             console.error('GET is not worked - Error:', error);
         }
     };
-
-
     useEffect(() => {
         console.log('check');
         const newSaveButtonEnabled =
@@ -190,18 +177,14 @@ const Dashboard = () => {
 
         setSaveButtonEnabled(newSaveButtonEnabled);
     }, [convertingNumbers]);
-
-
     useEffect(() => {
-        fetchData(); // Call fetchData only once when the component mounts
-    }, []); // Empty dependency array to run only on mount
-
+        fetchData();
+    }, []);
     const calculateData = () => {
         const oldMin = 0;
         const oldMax = Math.ceil(Math.max(0, ...Object.values(convertingNumbers)) / 100) * 100;
         const newMin = 0;
         const newMax = 100;
-
         const convertedNumbers = {};
         for (const key in convertingNumbers) {
             if (Object.hasOwnProperty.call(convertingNumbers, key)) {
@@ -209,12 +192,9 @@ const Dashboard = () => {
                     ((Math.max(0, convertingNumbers[key]) - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin;
             }
         }
-
         return convertedNumbers;
     };
-
     const convertedNumbers = calculateData();
-
     const barChartData = {
         labels: ['Category 6', 'Category 7', 'Category 8', 'Category 9', 'Category 10'],
         datasets: [
@@ -229,7 +209,6 @@ const Dashboard = () => {
             },
         ],
     };
-
     const isEligible = (convertingNumbers) => {
         if (
             convertingNumbers.category_6 > 99 &&
@@ -243,20 +222,17 @@ const Dashboard = () => {
             setSaveButtonEnabled(false);
         }
     };
-
     const handleInputChange = (category, value) => {
         setModifiedAmount((prevModifiedAmount) => ({
             ...prevModifiedAmount,
             [category]: value,
         }));
-
         setConvertingNumbers((prevConvertingNumbers) => ({
             ...prevConvertingNumbers,
             [category]: value,
         }));
         isEligible(convertingNumbers);
     };
-
     return (
         <div className="dashboard-page">
             <h2 className="headings">
@@ -365,7 +341,7 @@ const Dashboard = () => {
                         }
                     }}
                     // onMouseOver={() => { isSaveButtonEnabled }}
-                    disabled={isSaveButtonEnabled}
+                    disabled={!isSaveButtonEnabled}
                 >
                     Save
                 </button>
@@ -374,7 +350,7 @@ const Dashboard = () => {
                     className="reg"
                     onClick={() => {
                         localStorage.setItem('loggedIn', 'false');
-                        navigate('/login');
+                        navigate('/');
                     }}
                 >
                     Logout ?

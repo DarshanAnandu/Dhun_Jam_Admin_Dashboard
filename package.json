@@ -1,5 +1,6 @@
 {
   "homepage": ".",
+  "basename": "/Frontend-Assignment-3",
   "name": "dhunjam",
   "version": "0.1.0",
   "private": true,

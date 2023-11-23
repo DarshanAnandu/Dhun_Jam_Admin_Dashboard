@@ -33,30 +33,20 @@ const Login = () => {
                     password: password,
                 }),
             });
-
             if (!response.ok) {
                 console.log('Bad Response for sign in, The Response', response);
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
             const responseData = await response.json();
-            // console.log(responseData);
-
-            // Check if the response contains the expected structure
             if (responseData && responseData.status === 200 && responseData.data) {
                 const id = responseData.data.id;
                 const token = responseData.data.token;
-
                 localStorage.setItem('loggedIn', 'true');
                 localStorage.setItem('id', id);
-
-                // Perform any additional actions you need with id and token
-
-                // Navigate to the next page
-                navigate('/', { state: { id, token } });
-                // window.location.replace('/');
+                console.log(process.env.PUBLIC_URL);
+                navigate('/Dashboard', { state: { id, token } });
             } else {
-                // Handle unexpected response structure
                 console.error('Unexpected response structure:', responseData);
             }
         } catch (error) {
