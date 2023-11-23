@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "https://darshananandu.github.io/Frontend-Assignment-3/static/css/main.4c1d6c1d.css",
-    "main.js": "https://darshananandu.github.io/Frontend-Assignment-3/static/js/main.afb60fd0.js",
+    "main.js": "https://darshananandu.github.io/Frontend-Assignment-3/static/js/main.b39b1943.js",
     "static/js/787.fe23a83b.chunk.js": "https://darshananandu.github.io/Frontend-Assignment-3/static/js/787.fe23a83b.chunk.js",
     "index.html": "https://darshananandu.github.io/Frontend-Assignment-3/index.html",
     "main.4c1d6c1d.css.map": "https://darshananandu.github.io/Frontend-Assignment-3/static/css/main.4c1d6c1d.css.map",
-    "main.afb60fd0.js.map": "https://darshananandu.github.io/Frontend-Assignment-3/static/js/main.afb60fd0.js.map",
+    "main.b39b1943.js.map": "https://darshananandu.github.io/Frontend-Assignment-3/static/js/main.b39b1943.js.map",
     "787.fe23a83b.chunk.js.map": "https://darshananandu.github.io/Frontend-Assignment-3/static/js/787.fe23a83b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4c1d6c1d.css",
-    "static/js/main.afb60fd0.js"
+    "static/js/main.b39b1943.js"
   ]
 }
