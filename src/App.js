@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -13,16 +13,17 @@ const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(
     localStorage.getItem('loggedIn') === 'true'
   );
+  // const url = "https://darshananandu.github.io/Frontend-Assignment-3";
 
   useEffect(() => {
     const checkLoggedInStatus = () => {
       setLoggedIn(localStorage.getItem('loggedIn') === 'true');
-      const isLoginPage = window.location.pathname === '/Frontend-Assignment-3/';
+      const isLoginPage = window.location.pathname === '/';
 
       if (!isLoggedIn && !isLoginPage) {
-        window.location.replace('/Frontend-Assignment-3/');
+        <Navigate to="/" />
       } else if (isLoggedIn && isLoginPage) {
-        window.location.replace('/Frontend-Assignment-3/Dashboard');
+        <Navigate to="/Dashboard" />
       }
     };
 
@@ -34,21 +35,19 @@ const App = () => {
   }, [isLoggedIn]);
 
   return (
-    <Router basename='/Frontend-Assignment-3'>
+    <Router>
       <Routes>
         <Route
-          path="/Frontend-Assignment-3/"
+          path="/"
           element={<Login />}
         />
         <Route
           path="/Dashboard"
-          element={
-            isLoggedIn ? (
-              <Dashboard />
-            ) : (
-              <Navigate to="/Frontend-Assignment-3/" />
-            )
-          }
+          element={<Dashboard />}
+        />
+        <Route
+          path="/"
+          element={<Navigate to="/" />}
         />
       </Routes>
     </Router>
