@@ -57,13 +57,13 @@ const options = {
 
 const Dashboard = () => {
     const location = useLocation();
-    const token = location.state || {};
-    const id = localStorage.getItem('id');
-    const [chargeCustomers, setChargeCustomers] = useState(false);
-    const putUrl = `https://stg.dhunjam.in/account/admin/${id}`;
+    // const name = location.state || {};
+    // const id = localStorage.getItem('id');
+    const [chargeCustomers, setChargeCustomers] = useState(true);
+    // const putUrl = `https://stg.dhunjam.in/account/admin/${id}`;
     const navigate = useNavigate();
     const [isSaveButtonEnabled, setSaveButtonEnabled] = useState(false);
-    const [name, setName] = useState('');
+    const [name, setName] = useState(localStorage.getItem('name') || '' );
     const [Location, setLocation] = useState('');
 
     const [amount, setAmount] = useState({
@@ -91,81 +91,81 @@ const Dashboard = () => {
     });
     const minValues = [79, 59, 39, 19];
 
-    const handleSave = async () => {
-        try {
-            const modifiedFields = {};
-            Object.keys(modifiedAmount).forEach((key) => {
-                if (amount[key] !== modifiedAmount[key]) {
-                    modifiedFields[key] = modifiedAmount[key];
-                }
-            });
+    // const handleSave = async () => {
+    //     try {
+    //         const modifiedFields = {};
+    //         Object.keys(modifiedAmount).forEach((key) => {
+    //             if (amount[key] !== modifiedAmount[key]) {
+    //                 modifiedFields[key] = modifiedAmount[key];
+    //             }
+    //         });
 
-            if (Object.keys(modifiedFields).length === 0) {
-                return;
-            }
+    //         if (Object.keys(modifiedFields).length === 0) {
+    //             return;
+    //         }
 
-            const response = await fetch(putUrl, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    amount: modifiedFields,
-                }),
-            });
+    //         const response = await fetch(putUrl, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //             body: JSON.stringify({
+    //                 amount: modifiedFields,
+    //             }),
+    //         });
 
-            if (!response.ok) {
-                console.log('Bad Response for Put request', response);
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const result = await response.json();
-            console.log('PUT Request Successful:', result);
-            setAmount((prevAmount) => ({ ...prevAmount, ...modifiedFields }));
-            fetchData();
-        } catch (error) {
-            console.error('PUT is not worked - Error:', error);
-        }
-    };
+    //         if (!response.ok) {
+    //             console.log('Bad Response for Put request', response);
+    //             throw new Error(`HTTP error! Status: ${response.status}`);
+    //         }
+    //         const result = await response.json();
+    //         console.log('PUT Request Successful:', result);
+    //         setAmount((prevAmount) => ({ ...prevAmount, ...modifiedFields }));
+    //         fetchData();
+    //     } catch (error) {
+    //         console.error('PUT is not worked - Error:', error);
+    //     }
+    // };
 
-    const fetchData = async () => {
-        try {
-            console.log('fetch');
-            const response = await fetch(putUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (!response.ok) {
-                console.log('Bad Response for GET request', response);
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const result = await response.json();
-            if (result && result.data) {
-                setChargeCustomers(result.data.charge_customers);
-                setName(result.data.name);
-                setLocation(result.data.location);
-                setAmount((prevAmount) => ({
-                    ...prevAmount,
-                    ...result.data.amount,
-                }));
-                setConvertingNumbers({
-                    ...result.data.amount,
-                });
-                setModifiedAmount({
-                    category_6: 0,
-                    category_7: 0,
-                    category_8: 0,
-                    category_9: 0,
-                    category_10: 0,
-                });
-            }
-        } catch (error) {
-            console.error('GET is not worked - Error:', error);
-        }
-    };
+    // const fetchData = async () => {
+    //     try {
+    //         console.log('fetch');
+    //         const response = await fetch(putUrl, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //         if (!response.ok) {
+    //             console.log('Bad Response for GET request', response);
+    //             throw new Error(`HTTP error! Status: ${response.status}`);
+    //         }
+    //         const result = await response.json();
+    //         if (result && result.data) {
+    //             setChargeCustomers(result.data.charge_customers);
+    //             setName(result.data.name);
+    //             setLocation(result.data.location);
+    //             setAmount((prevAmount) => ({
+    //                 ...prevAmount,
+    //                 ...result.data.amount,
+    //             }));
+    //             setConvertingNumbers({
+    //                 ...result.data.amount,
+    //             });
+    //             setModifiedAmount({
+    //                 category_6: 0,
+    //                 category_7: 0,
+    //                 category_8: 0,
+    //                 category_9: 0,
+    //                 category_10: 0,
+    //             });
+    //         }
+    //     } catch (error) {
+    //         console.error('GET is not worked - Error:', error);
+    //     }
+    // };
     useEffect(() => {
         console.log('check');
         const newSaveButtonEnabled =
@@ -177,9 +177,9 @@ const Dashboard = () => {
 
         setSaveButtonEnabled(newSaveButtonEnabled);
     }, [convertingNumbers]);
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
     const calculateData = () => {
         const oldMin = 0;
         const oldMax = Math.ceil(Math.max(0, ...Object.values(convertingNumbers)) / 100) * 100;
@@ -335,7 +335,7 @@ const Dashboard = () => {
                         e.preventDefault();
                         if (isSaveButtonEnabled) {
                             console.log('clicked');
-                            handleSave();
+                            // handleSave();
                         } else {
                             console.log('btn disabled 3');
                         }

@@ -1,6 +1,6 @@
 # Dhun Jam Admin Dashboard
 
-Welcome to the Dhun Jam Admin Dashboard project! This dashboard provides a comprehensive interface for managing various venue-related settings, ensuring a seamless experience for administrators. Below, you'll find a detailed guide on the features, styles, API endpoints, and how to get started with the project.
+Welcome to the [Dhun Jam Admin Dashboard](https://darshananandu.github.io/Dhun_Jam_Admin_Dashboard/) [project](https://github.com/DarshanAnandu/Dhun_Jam_Admin_Dashboard)! This dashboard provides a comprehensive interface for managing various venue-related settings, ensuring a seamless experience for administrators. Below, you'll find a detailed guide on the features, styles, API endpoints, and how to get started with the project.
 
 ## Features
 
