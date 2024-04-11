@@ -286,7 +286,7 @@ const Dashboard = () => {
                         <div className="datas2">
                             <input
                                 type="number"
-                                className={`num ${convertingNumbers.category_6 > 99 ? '' : 'ineligible'}`}
+                                className={`num border-[#fff] border ${convertingNumbers.category_6 > 99 ? '' : 'ineligible'}`}
                                 value={convertingNumbers.category_6}
                                 onChange={(e) => {
                                     const value = parseInt(e.target.value, 10);
@@ -303,7 +303,7 @@ const Dashboard = () => {
                                     <div key={index} className="datas">
                                         <input
                                             type="number"
-                                            className={`num ${minValues[index] < convertingNumbers[category]
+                                            className={`num border-[#fff] border ${minValues[index] < convertingNumbers[category]
                                                 ? ''
                                                 : 'ineligible'
                                                 }`}
